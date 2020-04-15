@@ -1,4 +1,4 @@
-1 - Configurations des paramètres globaux
+# 1 - Configurations des paramètres globaux
 
 Sur SW0 en mode enable et config terminal, on défini le hostname, le domaine, le mdp, la clé rsa sur 2048 bits, ssh v2 et on sauvegarde:
 
@@ -141,4 +141,41 @@ SW1(config-if)#switchport trunk native vlan 100
 
 
 4 - Activation du routage
+
+Sur le routeur:
+
+Router(config)#int g0/0
+Router(config-if)#no ip address
+Router(config-if)#no shutdown
+Router(config-if)#exit
+Router(config)#int g0/0.1
+Router(config-subif)#encapsulation dot1Q 10
+Router(config-subif)#ip address 192.168.10.254 255.255.255.0
+Router(config-subif)#exit
+Router(config)#int g0/0.2
+Router(config-subif)#encapsulation dot1Q 20
+Router(config-subif)#ip address 192.168.20.254 255.255.255.0
+Router(config-subif)#exit
+Router(config)#int g0/0.3
+Router(config-subif)#encapsulation dot1q 99
+Router(config-subif)#ip address 192.168.1.254 255.255.255.0
+Router(config-subif)#exit
+Router(config)#int g0/0.4
+Router(config-subif)#encapsulation dot1q 100 native
+Router(config-subif)#exit
+Router(config)#do wr
+
+Comme l'énoncé le suggère, on active DHCP sur le routeur:
+
+Router(config)#ip dhcp pool VLAN_10
+Router(dhcp-config)#network 192.168.10.0 255.255.255.0
+Router(dhcp-config)#default-router 192.168.10.254
+Router(dhcp-config)#dns-server 8.8.8.8
+Router(dhcp-config)#exit
+Router(config)#ip dhcp pool VLAN_20
+Router(dhcp-config)#network 192.168.20.0 255.255.255.0
+Router(dhcp-config)#default-router 192.168.20.254
+Router(dhcp-config)#dns-server 8.8.8.8
+Router(dhcp-config)#exit
+
 
