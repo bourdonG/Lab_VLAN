@@ -97,3 +97,29 @@ VLAN Name                             Status
 
 3 - Configuration des ports "access" et "trunk"
 
+Sur SW0:
+
+SW0(config)#interface range g1/0-3
+SW0(config-if-range)#switchport mode access
+SW0(config-if-range)#switchport access vlan 10
+SW0(config-if-range)#spanning-tree portfast
+SW0(config-if-range)#exit
+SW0(config)#interface range g2/0-3
+SW0(config-if-range)#switchport mode access
+SW0(config-if-range)#switchport access vlan 20
+SW0(config-if-range)#spanning-tree portfast
+
+Sur SW1:
+
+SW1(config)#interface range g1/0-3
+SW1(config-if-range)#switchport mode access
+SW1(config-if-range)#switchport access vlan 10
+SW1(config-if-range)#spanning-tree portfast
+SW1(config-if-range)#exit
+SW1(config)#interface range g2/0-3
+SW1(config-if-range)#switchport mode access
+SW1(config-if-range)#switchport access vlan 20
+SW1(config-if-range)#spanning-tree portfast
+
+4 - Activation du routage
+
