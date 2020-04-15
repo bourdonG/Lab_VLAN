@@ -1,4 +1,4 @@
-# 1 - Configurations des paramètres globaux
+1 - Configurations des paramètres globaux
 
 Sur SW0 en mode enable et config terminal, on défini le hostname, le domaine, le mdp, la clé rsa sur 2048 bits, ssh v2 et on sauvegarde:
 
