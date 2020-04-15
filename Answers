@@ -178,4 +178,8 @@ Router(dhcp-config)#default-router 192.168.20.254
 Router(dhcp-config)#dns-server 8.8.8.8
 Router(dhcp-config)#exit
 
+5 - Configuration des stations de travail
 
+Sur chaque PC on laisse DHCP attribuer une adresse ipv4 => ip dhcp
+
+On ping pour vérifier la connectivité
