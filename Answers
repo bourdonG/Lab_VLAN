@@ -1,2 +1,99 @@
-# 1 - Configurations de paramètres globaux
+1 - Configurations des paramètres globaux
+
+Sur SW0 en mode enable et config terminal, on défini le hostname, le domaine, le mdp, la clé rsa sur 2048 bits, ssh v2 et on sauvegarde:
+
+Switch>enable
+Switch#conf t
+Switch(config)#hostname SW0
+SW0(config)#ip domain-name VLAN.lab
+SW0(config)#enable secret testtest
+SW0(config)#crypto key generate rsa
+SW0(config)#ip ssh version 2
+SW0(config)#line vty 0 15
+SW0(config-line)#login local
+SW0(config-line)#exit
+SW0#wr
+
+De même sur SW1:
+
+Switch>enable
+Switch#conf t
+Switch(config)#hostname SW1
+SW1(config)#ip domain-name VLAN.lab
+SW1(config)#enable secret testtest
+SW1(config)#crypto key generate rsa
+SW1(config)#ip ssh version 2
+SW1(config)#line vty 0 15
+SW1(config-line)#login local
+SW1(config-line)#exit
+SW1#wr
+
+2 - Création des VLANs sur les commutateurs
+
+On remarque que l'interface de gestion du commutateur est attribué au VLAN 99
+
+Sur SW0
+
+SW0#conf t
+SW0(config)#interface vlan 99
+SW0(config-if)#no shutdown
+SW0(config-if)#ip address 192.168.1.1 255.255.255.0
+SW0(config-if)#exit
+SW0(config)#ip default-gateway 192.168.1.254
+SW0(config)#do wr
+
+Sur SW1
+
+SW1#conf t
+SW1(config)#interface vlan 99
+SW1(config-if)#no shutdown
+SW1(config-if)#ip address 192.168.1.2 255.255.255.0
+SW1(config-if)#exit
+SW1(config)#ip default-gateway 192.168.1.254
+SW1(config)#do wr
+
+On crée ensuite chaque VLAN suivant l'énoncé
+
+Sur SW0:
+
+SW0(config)#vlan 10
+SW0(config-vlan)#name DATA
+SW0(config-vlan)#exit
+SW0(config)#vlan 20
+SW0(config-vlan)#name VOICE
+SW0(config-vlan)#exit
+SW0(config)#vlan 99
+SW0(config-vlan)#name MANAGEMENT
+SW0(config-vlan)#exit
+SW0(config)#vlan 100
+SW0(config-vlan)#name NATIVE
+SW0(config-vlan)#exit
+SW0(config)#do wr
+
+Sur SW1:
+
+SW1(config)#vlan 10
+SW1(config-vlan)#name DATA
+SW1(config-vlan)#exit
+SW1(config)#vlan 20
+SW1(config-vlan)#name VOICE
+SW1(config-vlan)#exit
+SW1(config)#vlan 99
+SW1(config-vlan)#name MANAGEMENT
+SW1(config-vlan)#exit
+SW1(config)#vlan 100
+SW1(config-vlan)#name NATIVE
+SW1(config-vlan)#exit
+SW1(config)#do wr
+
+On peut faire un "sh vlan" sur SW0 et SW1:
+
+VLAN Name                             Status
+---- -------------------------------- ------
+10   DATA                             active
+20   VOICE                            active
+99   MANAGEMENT                       active
+100  NATIVE                           active
+
+3 - Configuration des ports "access" et "trunk"
 
